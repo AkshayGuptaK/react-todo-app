@@ -1,4 +1,157 @@
-.App {
-    margin: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
+@import url('https://www.fontify.me/wf/48f3e12c04a64dde546f078f61fa84bc');
+
+html {
+    background-color: beige;
+    background: url('images/construction.jpg') no-repeat fixed;
+    background-size: 100% 100%;
+    font-size: 12px;
+}
+
+h1, h2, .emptymsg {
+    text-align: center;
+    font-family: font89786;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+.emptymsg {
+    font-size: 1.5rem;
+}
+
+form {
+    margin: 20px;
+    display: table;
+    width: 100%;
+}
+
+#inputTaskName, #inputTaskDescription {
+    display: table-cell;
+    vertical-align: middle;
+    width: 95%;
+    min-width: 100px;
+    background-color: beige;
+    border-radius: 5px;
+}
+
+#inputTaskName {
+    font-size: 1.5rem;
+    margin: 0px 5px 5px 0px;
+}
+
+#inputTaskDescription {
+    font-size: 1rem;
+    margin-right: 5px;
+}
+
+.task, .taskToDo {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 1fr 30px 30px;
+    grid-template-rows: 5fr 1fr 4fr;
+    grid-column-gap: 5px;
+    width: 95.4%;
+}
+
+.taskname, .taskdesc {
+    background-color: rgba(245, 245, 220, 0.8);
+    border: none;
+    border-radius: 5px;
+    color: grey;
+    width: 99.5%;
+    min-width: 75px;
+    padding: 5px 0px 5px 5px;
+    text-overflow: ellipsis;
+}
+
+.taskname {
+    font-size: 1.5rem;
+    margin: 0px 0px 5px 0px;
+    grid-area: 1 / 1 / 3 / 2;
+}
+
+.taskdesc {
+    font-size: 1rem;
+    margin: 0px;
+    grid-area: 3 / 1 / 4 / 2;
+}
+
+input[disabled] {
+    color: black;
+}
+
+button:hover {
+    background-color: lightblue;
+}
+
+#addtask {
+    background: url('images/add.png') no-repeat local;
+    background-size: 100% 100%;
+    padding: 11px;
+    border-radius: 5px;
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0px 0px 5px 0px;
+}
+
+.deleteBtn {
+    background: url('images/delete.png') no-repeat local;
+    background-size: 100% 100%;
+    grid-area: 2 / 3 / 4 / 4;
+}
+
+.editBtn {
+    background: url('images/edit.png') no-repeat local;
+    background-size: 100% 100%;
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.describeBtn {
+    background: url('images/describe.png') no-repeat local;
+    background-size: 100% 100%;
+    grid-area: 2 / 2 / 4 / 3;
+}
+
+.completeBtn {
+    background: url('images/complete.png') no-repeat local;
+    background-size: 100% 100%;
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+.incompleteBtn {
+    background: url('images/incomplete.png') no-repeat local;
+    background-size: 100% 100%;
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+.acceptNameEditBtn, .acceptDescEditBtn {
+    background: url('images/apply-change.png') no-repeat local;
+    background-size: 100% 100%;
+}
+
+.acceptNameEditBtn {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.acceptDescEditBtn {
+    grid-area: 2 / 2 / 4 / 3;
+}
+
+#inputDivider, #completeDivider {
+    margin: auto;
+    width: 80%;
+    padding-top: 10px;
+}
+
+#inputDivider {
+    border-top: solid blue 1px;
+}
+
+#completeDivider {
+    border-bottom: solid blue 1px;
 }
