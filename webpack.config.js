@@ -2,16 +2,22 @@
 
 const path = require('path')
 const webpack = require('webpack')
+const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = {
   entry: "./src/index.js",
   module: {
     rules: [
       {
+        test: /\.html$/,
+        loader: "html-loader",
+        options: { minimize: true }
+      },
+      {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
-        options: { presets: ['@babel/env'] }
+        options: { presets: ['@babel/preset-env'] } // not sure if needed
       },
       {
         test: /\.css$/,
@@ -21,13 +27,13 @@ module.exports = {
         ]
       },
       {
-        test: /\.png$/,
+        test: /\.(png|jpg)$/,
         loader: 'url-loader'
       }
     ]
   },
   resolve: { 
-    extensions: ["*", ".js", ".jsx"]
+    extensions: ["*", ".js", ".jsx"],
   },
   output: {
     path: path.resolve(__dirname, "dist/"),
@@ -41,6 +47,10 @@ module.exports = {
     hotOnly: true
   },  
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebPackPlugin({
+        template: "./public/index.html",
+        filename: "./index.html"
+    })
   ]
 }
