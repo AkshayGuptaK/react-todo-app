@@ -154,14 +154,14 @@ class EditField extends React.Component {
     if (this.state.editOn) {
       //put request of some props type using this.state.value
     }
-    this.state.editOn = !this.state.editOn
+    this.setState({editOn: !this.state.editOn})
   }
   render() {
     return(
-      <div>
+      <React.Fragment>
       <input type='text' className={this.props.class} disabled={!this.state.editOn} value={this.state.value} onChange={(e)=>{this.setState({value: e.target.value})}}></input>
       <ToggleBtn condition={this.state.editOn} onClass={this.props.btnOnClass} offClass={this.props.btnOffClass} clickAction={this.handleClick}></ToggleBtn>
-      </div>
+      </React.Fragment>
     )
   }
 }
