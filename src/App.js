@@ -23,8 +23,7 @@ class App extends React.Component {
   } // implement error handling
   addTaskSuccess(id, name, description) {
     console.log('Task added successfully')
-    this.state.tasks.push({'id': id, 'name': name, 'description': description, 'completed': false})
-    this.forceUpdate()
+    this.setState({tasks: this.state.tasks.concat([{'id': id, 'name': name, 'description': description, 'completed': false}])})
   }
   delTask (id) {
     console.log('Submitting delete request')
@@ -39,14 +38,14 @@ class App extends React.Component {
   delTaskSuccess (id) {
     this.setState({tasks: this.state.tasks.filter(x => x.id !== id)})
   }
-  //componentDidMount() {
-  //  console.log('Submitting get request')
-  //  fetch("http://localhost:8080/allTasks", {
-  //    method: 'GET',
-  //    mode: "cors"
-  //  }).then(res => res.json()).then(res => res) // need to add function
+  componentDidMount() {
+    console.log('Submitting get request')
+    fetch("http://localhost:8080/allTasks", {
+      method: 'GET',
+      mode: "cors"
+    }).then(res => res.json()).then(res => this.setState({tasks: res}))
     // check for errors
-  //}
+  }
   render() {
     return(
       <div className="App">

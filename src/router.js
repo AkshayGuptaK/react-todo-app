@@ -4,29 +4,28 @@ const util = require('util')
 var router = express.Router()
 var client = redis.createClient()
 
+function addPropertyToObject(objects, ids) {
+  for (let i=0; i<objects.length; i++) {
+    objects[i]['id'] = ids[i]
+  }
+  return objects
+}
 
 /* GET all task data */
-router.get('/allTasks', function() {
+router.get('/allTasks', function(req, res) {
   console.log('I got a get request')
   let tasks = []
-  client.get('tasks', function(err, res) {
+  client.lrange('tasks', 0, -1, function(err, ids) {
     if (err) {
+      console.log('Error', err) // debug
       // res.send(err)
     } else {
-      console.log(res) // debug
-      for (id of res) {
-        console.log(id) // debug
-        const hgetall = util.promisify(client.hgetall)
-        client.hgetall(id, function(err, res) {
-          if (err) {
-            res.send(err)
-          } else {
-            console.log(res) // debug
-            tasks.push(res)
-          }
-        })
+      for (id of ids) {
+        const hgetall = util.promisify(client.hgetall).bind(client)
+        let task = hgetall(id)
+        tasks.push(task)
       }
-      res.send(tasks) // need to send this after the for loop reqs have completed    
+      Promise.all(tasks).then(values => res.send(addPropertyToObject(values, ids)))
     }
   })
 })
@@ -86,7 +85,7 @@ router.delete('/delTask', function(req, res) {
       res.send(err)
       console.log('error is', err)
     } else {
-      // remove task from task ids list
+      client.lrem('tasks', 1, id)
       console.log('Task deleted')
       res.send({'successes': result})
     }
@@ -95,12 +94,8 @@ router.delete('/delTask', function(req, res) {
 
 module.exports = router
 
-
-  // use AOF persistence
 client.on('connect', function() {
       console.log('Redis client connected')
-      //console.log(client.hgetall(b))
-      
       //client.quit()
 })
 
