@@ -124,6 +124,7 @@ class Task extends React.Component {
     super(props) // contains id, name, desc, completed, completeAction, deleteAction
     this.delTask = this.delTask.bind(this)
     this.completeTask = this.completeTask.bind(this)
+    this.applyChanges = this.applyChanges.bind(this)
   }
   delTask() {
     this.props.deleteAction(this.props.id)
@@ -132,11 +133,20 @@ class Task extends React.Component {
     console.log('Complete a Task clicked') // debug
     this.props.completeAction(this.props.id, !this.props.completed)
   }
+  applyChanges(field, value) {
+    console.log('Submitting put request')
+    fetch("http://localhost:8080/editTask", {
+      method: 'PUT',
+      mode: "cors",
+      headers: {'Content-Type': 'application/json; charset=utf-8'},
+      body: JSON.stringify({'id': this.props.id, 'field': field, 'value': value})
+    }) // error handling
+  }
   render() {
     return(
       <div className='task'>
-      <EditField class='taskname' value={this.props.name} btnOnClass='acceptNameEditBtn' btnOffClass='editBtn'> submitFunc={}</EditField>
-      <EditField class='taskdesc' value={this.props.desc} btnOnClass='acceptDescEditBtn' btnOffClass='describeBtn'> submitFunc={}</EditField>
+      <EditField field='name' class='taskname' value={this.props.name} btnOnClass='acceptNameEditBtn' btnOffClass='editBtn' submitFunc={this.applyChanges}></EditField>
+      <EditField field='description' class='taskdesc' value={this.props.desc} btnOnClass='acceptDescEditBtn' btnOffClass='describeBtn' submitFunc={this.applyChanges}></EditField>
       <ToggleBtn condition={this.props.completed} onClass='incompleteBtn' offClass='completeBtn' clickAction={this.completeTask}></ToggleBtn>
       <button className='deleteBtn' onClick={this.delTask}></button>
       </div>
@@ -152,7 +162,7 @@ class EditField extends React.Component {
   }
   handleClick (event) {
     if (this.state.editOn) {
-      //put request of some props type using this.state.value
+      this.props.submitFunc(this.props.field, this.state.value)
     }
     this.setState({editOn: !this.state.editOn})
   }
