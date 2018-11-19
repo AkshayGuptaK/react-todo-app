@@ -1,7 +1,9 @@
 const express = require('express')
 const redis = require('redis')
+const util = require('util')
 var router = express.Router()
 var client = redis.createClient()
+
 
 /* GET all task data */
 router.get('/allTasks', function() {
@@ -14,6 +16,7 @@ router.get('/allTasks', function() {
       console.log(res) // debug
       for (id of res) {
         console.log(id) // debug
+        const hgetall = util.promisify(client.hgetall)
         client.hgetall(id, function(err, res) {
           if (err) {
             res.send(err)
@@ -92,7 +95,7 @@ router.delete('/delTask', function(req, res) {
 
 module.exports = router
 
-  
+
   // use AOF persistence
 client.on('connect', function() {
       console.log('Redis client connected')
