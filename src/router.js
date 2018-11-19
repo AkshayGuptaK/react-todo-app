@@ -4,10 +4,18 @@ const util = require('util')
 var router = express.Router()
 var client = redis.createClient()
 
-function addPropertyToObject(objects, ids) {
+function parseBool(str) {
+  if (str === 'true') {
+    return true
+  } return false
+}
+
+function formatData(objects, ids) {
   for (let i=0; i<objects.length; i++) {
-    objects[i]['id'] = ids[i]
+    objects[i]['id'] = parseInt(ids[i])
+    objects[i]['completed'] = parseBool(objects[i]['completed'])
   }
+  console.log(objects)
   return objects
 }
 
@@ -17,15 +25,14 @@ router.get('/allTasks', function(req, res) {
   let tasks = []
   client.lrange('tasks', 0, -1, function(err, ids) {
     if (err) {
-      console.log('Error', err) // debug
-      // res.send(err)
+      res.send(err)
     } else {
       for (id of ids) {
         const hgetall = util.promisify(client.hgetall).bind(client)
         let task = hgetall(id)
         tasks.push(task)
       }
-      Promise.all(tasks).then(values => res.send(addPropertyToObject(values, ids)))
+      Promise.all(tasks).then(values => res.send(formatData(values, ids)))
     }
   })
 })

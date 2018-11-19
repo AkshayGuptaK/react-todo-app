@@ -19,7 +19,8 @@ class App extends React.Component {
       mode: "cors",
       headers: {'Content-Type': 'application/json; charset=utf-8'},
       body: JSON.stringify({'name': name, 'description': description})
-    }).then(res => res.json()).then(res => this.addTaskSuccess(res.id, name, description))
+    }).then(res => res.json())
+    .then(res => this.addTaskSuccess(res.id, name, description))
   } // implement error handling
   addTaskSuccess(id, name, description) {
     console.log('Task added successfully')
@@ -32,7 +33,8 @@ class App extends React.Component {
       mode: "cors",
       headers: {'Content-Type': 'application/json; charset=utf-8'},
       body: JSON.stringify({'id': id})
-    }).then(res => res.json()).then(res => this.delTaskSuccess(id))
+    }).then(res => res.json())
+    .then(res => this.delTaskSuccess(id))
     // check for errors
   }
   delTaskSuccess (id) {
@@ -43,7 +45,8 @@ class App extends React.Component {
     fetch("http://localhost:8080/allTasks", {
       method: 'GET',
       mode: "cors"
-    }).then(res => res.json()).then(res => this.setState({tasks: res}))
+    }).then(res => res.json())
+    .then(res => this.setState({tasks: res}))
     // check for errors
   }
   render() {
