@@ -78,7 +78,7 @@ router.put('/editTask', function(req, res) {
       res.send(err)
       console.log('error is', err)
     } else {
-      res.send(result)
+      res.send()
     }
   })
 })

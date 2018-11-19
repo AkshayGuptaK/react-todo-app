@@ -10,6 +10,8 @@ class App extends React.Component {
     this.addTaskSuccess = this.addTaskSuccess.bind(this)
     this.delTask = this.delTask.bind(this)
     this.delTaskSuccess = this.delTaskSuccess.bind(this)
+    this.completeTask = this.completeTask.bind(this)
+    this.completeTaskSuccess = this.completeTaskSuccess.bind(this)
   }
   addTask (name, description) {
     console.log(this.state.tasks)
@@ -40,6 +42,20 @@ class App extends React.Component {
   delTaskSuccess (id) {
     this.setState({tasks: this.state.tasks.filter(x => x.id !== id)})
   }
+  completeTask (id, completed) {
+    console.log('Submitting put request')
+    fetch("http://localhost:8080/editTask", {
+      method: 'PUT',
+      mode: "cors",
+      headers: {'Content-Type': 'application/json; charset=utf-8'},
+      body: JSON.stringify({'id': id, 'field': 'completed', 'value': completed})
+    }).then(res => this.completeTaskSuccess(id, completed))
+  } // error checking
+  completeTaskSuccess (id, completed) {
+    let task = this.state.tasks.filter(x => x.id === id)
+    task[0].completed = completed
+    this.setState({tasks: this.state.tasks.filter(x => x.id !== id).concat(task)})
+  }
   componentDidMount() {
     console.log('Submitting get request')
     fetch("http://localhost:8080/allTasks", {
@@ -55,10 +71,10 @@ class App extends React.Component {
         <h1>Carpe Diem</h1>
         <Input submit={this.addTask}></Input>
         <div id="inputDivider" className="divider"></div>
-        {this.state.tasks.filter(x => !x.completed).map(task => {return <Task key={task.id} id={task.id} name={task.name} desc={task.description} completed={task.completed} completeAction={x => x} deleteAction={this.delTask}></Task>})}
+        {this.state.tasks.filter(x => !x.completed).map(task => {return <Task key={task.id} id={task.id} name={task.name} desc={task.description} completed={task.completed} completeAction={this.completeTask} deleteAction={this.delTask}></Task>})}
         <div id="completeDivider" className="divider"></div>
         <h2>Completed</h2>
-        {this.state.tasks.filter(x => x.completed).map(task => {return <Task key={task.id} id={task.id} name={task.name} desc={task.description} completed={task.completed} completeAction={x => x} deleteAction={this.delTask}></Task>})}
+        {this.state.tasks.filter(x => x.completed).map(task => {return <Task key={task.id} id={task.id} name={task.name} desc={task.description} completed={task.completed} completeAction={this.completeTask} deleteAction={this.delTask}></Task>})}
       </div>
     )
   }
@@ -107,16 +123,21 @@ class Task extends React.Component {
   constructor (props) {
     super(props) // contains id, name, desc, completed, completeAction, deleteAction
     this.delTask = this.delTask.bind(this)
+    this.completeTask = this.completeTask.bind(this)
   }
   delTask() {
     this.props.deleteAction(this.props.id)
+  }
+  completeTask() {
+    console.log('Complete a Task clicked') // debug
+    this.props.completeAction(this.props.id, !this.props.completed)
   }
   render() {
     return(
       <div className='task'>
       <EditField class='taskname' value={this.props.name} btnOnClass='acceptNameEditBtn' btnOffClass='editBtn'> submitFunc={}</EditField>
       <EditField class='taskdesc' value={this.props.desc} btnOnClass='acceptDescEditBtn' btnOffClass='describeBtn'> submitFunc={}</EditField>
-      <ToggleBtn condition={this.props.completed} onClass='incompleteBtn' offClass='completeBtn' clickAction={this.props.completeAction}></ToggleBtn>
+      <ToggleBtn condition={this.props.completed} onClass='incompleteBtn' offClass='completeBtn' clickAction={this.completeTask}></ToggleBtn>
       <button className='deleteBtn' onClick={this.delTask}></button>
       </div>
     )
