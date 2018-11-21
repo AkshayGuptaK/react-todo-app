@@ -25,13 +25,23 @@ function parseBool (str) {
   } return false
 }
 
-function formatData (objects, ids) {
+function formatTaskData (objects, ids) {
   for (let i=0; i<objects.length; i++) {
     objects[i]['id'] = parseInt(ids[i])
     objects[i]['completed'] = parseBool(objects[i]['completed'])
   }
-  console.log(objects)
   return objects
+}
+
+function formatListData (values) {
+  for (let i=0; i<values[0].length; i++) {
+    if(values[1][i]) {
+      values[0][i]['tasks'] = values[1][i]
+    } else {
+      values[0][i]['tasks'] = []      
+    }
+  }
+  return values[0]
 }
 
 function getAllTasksOfList (listId) {
@@ -43,7 +53,7 @@ function getAllTasksOfList (listId) {
       for (id of ids) {
         tasks.push(hgetall(id))
       }
-      return Promise.all(tasks).then(values => formatData(values, ids))
+      return Promise.all(tasks).then(values => formatTaskData(values, ids))
     }
   })
 }
@@ -62,8 +72,8 @@ exports.getAllData = function (req, res) {
         listNames.push(hgetall(id))
         listTasks.push(getAllTasksOfList(id))
       }
-      Promise.all([Promise.all(listNames), Promise.all(getAllTasksOfList)])
-      .then(values => console.log(values)) // debug
+      Promise.all([Promise.all(listNames), Promise.all(listTasks)])
+      .then(values => res.send(formatListData(values)))
     }
   })
 }

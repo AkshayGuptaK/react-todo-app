@@ -1,5 +1,5 @@
 const express = require('express')
-const controllers = require('/controllers.js')
+const controllers = require('./controllers')
 var router = express.Router()
 
 /* GET all data */

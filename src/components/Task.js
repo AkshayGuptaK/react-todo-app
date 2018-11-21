@@ -58,9 +58,8 @@ class EditField extends React.Component {
   
 function ToggleBtn (props) {
   if (props.condition) {
-    // console.log('Button on', props.onClass)
     return <button className={props.onClass} onClick={props.clickAction}></button>
-  }     // console.log('Button off', props.offClass)
+  }
   return <button className={props.offClass} onClick={props.clickAction}></button>
 }
 
