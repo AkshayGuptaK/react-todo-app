@@ -1,6 +1,6 @@
 const express = require('express')
-var router = express.Router()
 const controllers = require('/controllers.js')
+var router = express.Router()
 
 /* GET all data */
 router.get('/all', controllers.getAllData)
@@ -21,10 +21,9 @@ router.delete('/list/:listId', controllers.deleteList)
 router.post('/task/:listId/:name/:desc', controllers.addTask)
 
 /* PUT task edit */
-router.put('/task/:listId/:taskId/:field/:value', controllers.editTask)
+router.put('/task/:taskId/:field/:value', controllers.editTask)
 
 /* DELETE a task */
 router.delete('/task/:listId/:taskId', controllers.deleteTask)
 
 module.exports = router
-
