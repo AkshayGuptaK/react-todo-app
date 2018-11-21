@@ -17,11 +17,9 @@ class Task extends React.Component {
     }
     applyChanges(field, value) {
       console.log('Submitting put request')
-      fetch("http://localhost:8080/editTask", {
+      fetch("http://localhost:8080/task/" + this.props.id + '/' + field + '/' + value, {
         method: 'PUT',
-        mode: "cors",
-        headers: {'Content-Type': 'application/json; charset=utf-8'},
-        body: JSON.stringify({'id': this.props.id, 'field': field, 'value': value})
+        mode: "cors"
       }) // error handling
     }
     render() {

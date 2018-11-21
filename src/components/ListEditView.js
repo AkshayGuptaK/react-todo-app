@@ -2,9 +2,8 @@ import React from "react"
 import {hot} from "react-hot-loader"
 import Input from "./Input.js"
 import Task from "./Task.js"
-import "./App.css"
 
-class App extends React.Component {
+class ListEditView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {tasks: []}
@@ -18,11 +17,9 @@ class App extends React.Component {
   addTask (name, description) {
     console.log(this.state.tasks)
     console.log('Submitting post request')
-    fetch("http://localhost:8080/newTask", {
+    fetch("http://localhost:8080/task/" + this.props.id + '/' + name + '/' + description, {
       method: 'POST',
-      mode: "cors",
-      headers: {'Content-Type': 'application/json; charset=utf-8'},
-      body: JSON.stringify({'name': name, 'description': description})
+      mode: "cors"
     }).then(res => res.json())
     .then(res => this.addTaskSuccess(res.id, name, description))
   } // implement error handling
@@ -32,11 +29,9 @@ class App extends React.Component {
   }
   delTask (id) {
     console.log('Submitting delete request')
-    fetch("http://localhost:8080/delTask", {
+    fetch("http://localhost:8080/task/" + this.props.id + '/' + id, {
       method: 'DELETE',
-      mode: "cors",
-      headers: {'Content-Type': 'application/json; charset=utf-8'},
-      body: JSON.stringify({'id': id})
+      mode: "cors"
     }).then(res => res.json())
     .then(res => this.delTaskSuccess(id))
     // check for errors
@@ -46,11 +41,9 @@ class App extends React.Component {
   }
   completeTask (id, completed) {
     console.log('Submitting put request')
-    fetch("http://localhost:8080/editTask", {
+    fetch("http://localhost:8080/task/" + id + '/completed/' + completed, {
       method: 'PUT',
-      mode: "cors",
-      headers: {'Content-Type': 'application/json; charset=utf-8'},
-      body: JSON.stringify({'id': id, 'field': 'completed', 'value': completed})
+      mode: "cors"
     }).then(res => this.completeTaskSuccess(id, completed))
   } // error checking
   completeTaskSuccess (id, completed) {
@@ -84,4 +77,4 @@ class App extends React.Component {
   }
 }
 
-export default hot(module)(App)
+export default hot(module)(ListEditView)

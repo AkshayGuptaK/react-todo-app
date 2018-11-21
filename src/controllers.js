@@ -67,8 +67,6 @@ exports.getAllData = function (req, res) {
     }
   })
 }
-//expected return is an array of list objects, each with a name and tasks property
-//tasks property should hold an array of task objects
 
 exports.addList = function (req, res) {
   console.log('I got a post request')

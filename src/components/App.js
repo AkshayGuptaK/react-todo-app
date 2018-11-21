@@ -1,7 +1,8 @@
 import React from "react"
 import {hot} from "react-hot-loader"
+import "../App.css"
 
-class ListView extends React.Component {
+class App extends React.Component {
   addList (name) {
     //POST call to db
   }
@@ -61,4 +62,4 @@ class List extends React.Component {
   }
 }
 
-export default hot(module)(ListView)
+export default hot(module)(App)
