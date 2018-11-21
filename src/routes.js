@@ -5,9 +5,6 @@ var router = express.Router()
 /* GET all data */
 router.get('/all', controllers.getAllData)
 
-/* GET all task data of a list */
-router.get('/list/:listId', controllers.getAllTasks)
-
 /* POST new list */
 router.post('/list/:name', controllers.addList)
 

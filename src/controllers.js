@@ -1,6 +1,23 @@
 const redis = require('redis')
 const util = require('util')
-var client = redis.createClient()
+const client = redis.createClient()
+const hgetall = util.promisify(client.hgetall).bind(client)
+
+// Connection event handlers
+
+client.on('connect', function() {
+  console.log('Redis client connected')
+})
+
+client.on('error', function (err) {
+  console.log('Error ' + err)
+})
+
+// Helper functions
+
+function taskListId (id) {
+  return 'tasks:' + id
+}
 
 function parseBool (str) {
   if (str === 'true') {
@@ -17,13 +34,41 @@ function formatData (objects, ids) {
   return objects
 }
 
-function taskListId (id) {
-  return 'tasks:' + id
+function getAllTasksOfList (listId) {
+  let tasks = []
+  client.lrange(taskListId(listId), 0, -1, function(err, ids) {
+    if (err) {
+      res.send(err)
+    } else {
+      for (id of ids) {
+        tasks.push(hgetall(id))
+      }
+      return Promise.all(tasks).then(values => formatData(values, ids))
+    }
+  })
 }
+
+// Exported Controllers
 
 exports.getAllData = function (req, res) {
   console.log('I got a get request')
+  let listNames = []
+  let listTasks = []
+  client.lrange('lists', 0, -1, function(err, ids) {
+    if (err) {
+      res.send(err)
+    } else {
+      for (id of ids) {
+        listNames.push(hgetall(id))
+        listTasks.push(getAllTasksOfList(id))
+      }
+      Promise.all([Promise.all(listNames), Promise.all(getAllTasksOfList)])
+      .then(values => console.log(values)) // debug
+    }
+  })
 }
+//expected return is an array of list objects, each with a name and tasks property
+//tasks property should hold an array of task objects
 
 exports.addList = function (req, res) {
   console.log('I got a post request')
@@ -81,7 +126,7 @@ exports.deleteList = function (req, res) {
 exports.getAllTasks = function (req, res) {
   console.log('I got a get request')
   let tasks = []
-  client.lrange('tasks', 0, -1, function(err, ids) {
+  client.lrange(taskListId(req.params.listId), 0, -1, function(err, ids) {
     if (err) {
       res.send(err)
     } else {
@@ -147,11 +192,3 @@ exports.deleteTask = function (req, res) {
     }
   })
 }
-
-client.on('connect', function() {
-  console.log('Redis client connected')
-})
-
-client.on('error', function (err) {
-  console.log('Error ' + err)
-})
