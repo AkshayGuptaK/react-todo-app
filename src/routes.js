@@ -15,6 +15,7 @@ router.put('/list/:listId/:name', controllers.editList)
 router.delete('/list/:listId', controllers.deleteList)
 
 /* POST new task */
+router.post('/task/:listId/:name/', controllers.addTask)
 router.post('/task/:listId/:name/:desc', controllers.addTask)
 
 /* PUT task edit */

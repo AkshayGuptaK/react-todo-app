@@ -2,6 +2,7 @@ const redis = require('redis')
 const util = require('util')
 const client = redis.createClient()
 const hgetall = util.promisify(client.hgetall).bind(client)
+const lrange = util.promisify(client.lrange).bind(client)
 
 // Connection event handlers
 
@@ -33,50 +34,33 @@ function formatTaskData (objects, ids) {
   return objects
 }
 
-function formatListData (values) {
-  for (let i=0; i<values[0].length; i++) {
-    if(values[1][i]) {
-      values[0][i]['tasks'] = values[1][i]
+function formatListData (names, tasks, ids) {
+  for (let i=0; i<names.length; i++) {
+    if(tasks[i]) {
+      names[i]['tasks'] = tasks[i]
     } else {
-      values[0][i]['tasks'] = []      
+      names[i]['tasks'] = []      
     }
+    names[i]['id'] = ids[i]
   }
-  return values[0]
+  return names
 }
 
-function getAllTasksOfList (listId) {
-  let tasks = []
-  client.lrange(taskListId(listId), 0, -1, function(err, ids) {
-    if (err) {
-      res.send(err)
-    } else {
-      for (id of ids) {
-        tasks.push(hgetall(id))
-      }
-      return Promise.all(tasks).then(values => formatTaskData(values, ids))
-    }
-  })
-}
+async function getTasksOfList (listId) {
+  let ids = await lrange(taskListId(listId), 0, -1)
+  let tasks = await Promise.all(ids.map(id => hgetall(id)))
+  return formatTaskData(tasks, ids)
+} // error handling
 
 // Exported Controllers
 
-exports.getAllData = function (req, res) {
+exports.getAllData = async function (req, res) {
   console.log('I got a get request')
-  let listNames = []
-  let listTasks = []
-  client.lrange('lists', 0, -1, function(err, ids) {
-    if (err) {
-      res.send(err)
-    } else {
-      for (id of ids) {
-        listNames.push(hgetall(id))
-        listTasks.push(getAllTasksOfList(id))
-      }
-      Promise.all([Promise.all(listNames), Promise.all(listTasks)])
-      .then(values => res.send(formatListData(values)))
-    }
-  })
-}
+  let ids = await lrange('lists', 0, -1)
+  let listNames = await Promise.all(ids.map(id => hgetall(id)))
+  let listTasks = await Promise.all(ids.map(id => getTasksOfList(id)))
+  res.send(formatListData(listNames, listTasks, ids))
+} // error handling
 
 exports.addList = function (req, res) {
   console.log('I got a post request')
@@ -131,25 +115,11 @@ exports.deleteList = function (req, res) {
   })
 }
 
-exports.getAllTasks = function (req, res) {
-  console.log('I got a get request')
-  let tasks = []
-  client.lrange(taskListId(req.params.listId), 0, -1, function(err, ids) {
-    if (err) {
-      res.send(err)
-    } else {
-      for (id of ids) {
-        const hgetall = util.promisify(client.hgetall).bind(client)
-        let task = hgetall(id)
-        tasks.push(task)
-      }
-      Promise.all(tasks).then(values => res.send(formatData(values, ids)))
-    }
-  })
-}
-
 exports.addTask = function (req, res) {
   console.log('I got a post request')
+  if (!req.params.desc) {
+    req.params.desc = ''
+  }
   client.incr('index', function(err, id) {
     if (err) {
       console.log('error is', err)
