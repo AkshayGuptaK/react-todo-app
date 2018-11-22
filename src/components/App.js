@@ -1,7 +1,8 @@
 import React from "react"
 import {hot} from "react-hot-loader"
 import "../App.css"
-import InputField from "./InputField"
+import ListInput from "./ListInput"
+import List from "./List"
 import ListEditView from "./ListEditView"
 
 class App extends React.Component {
@@ -67,63 +68,6 @@ class App extends React.Component {
       </div>
     )
   }
-}
-
-class ListInput extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {'name': ''}
-    this.addList = this.addList.bind(this)
-  }
-  addList (event) {
-    event.preventDefault()
-    if ( !/\S+/.test(this.state.name) ) {
-      alert('Please enter a list name')
-    } else {
-      this.props.submit(this.state.name)
-      this.setState({'name':''})
-    }
-  }
-  render() {
-    return(
-      <form>
-        <InputField id='inputTaskName' value={this.state.name} update={(value)=>{this.setState({'name': value})}}></InputField>
-        <button id='addlist' onClick={this.addList}></button>
-      </form>
-    )
-  }
-}
-
-class List extends React.Component {
-  constructor (props) {
-    super(props)
-    this.deleteList = this.deleteList.bind(this)
-    this.editList = this.editList.bind(this)
-  }
-  deleteList() {
-    this.props.delete(this.props.id)
-  }
-  editList() {
-    this.props.select(this.props.id)
-  }
-  render() {
-    return(
-      <div className='todoList' onClick={this.editList}>
-        <h2>{this.props.name}</h2>
-        <ul>
-          {this.props.tasks.filter(x => !x.completed).map(task => {return <li key={task.id}>{task.name}</li>})}
-        </ul>
-        <CompletedTasksMessage completedTasks={this.props.tasks.filter(x => x.completed).length}></CompletedTasksMessage>
-        <button className='listDeleteBtn' onClick={this.deleteList}></button>
-      </div>
-    )
-  }
-}
-
-function CompletedTasksMessage (props) {
-  if (props.completedTasks > 0) {
-    return <p>+ {props.completedTasks} tasks completed</p>
-  } return <p></p>
 }
 
 export default hot(module)(App)

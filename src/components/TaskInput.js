@@ -2,7 +2,7 @@ import React from "react"
 import {hot} from "react-hot-loader"
 import InputField from "./InputField"
 
-class Input extends React.Component {
+class TaskInput extends React.Component {
   constructor (props) {
     super(props)
     this.state = {'name': '', 'description': ''}
@@ -28,4 +28,4 @@ class Input extends React.Component {
   }
 }
 
-export default hot(module)(Input)
+export default hot(module)(TaskInput)

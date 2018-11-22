@@ -1,6 +1,6 @@
 import React from "react"
 import {hot} from "react-hot-loader"
-import Input from "./Input"
+import TaskInput from "./TaskInput"
 import Task from "./Task"
 
 class ListEditView extends React.Component {
@@ -74,7 +74,7 @@ class ListEditView extends React.Component {
       <div className="App">
         <button id='returnBtn' onClick={this.changeView}></button>
         <input value={this.state.name} id='ListName' onChange={this.editName}></input>
-        <Input submit={this.addTask}></Input>
+        <TaskInput submit={this.addTask}></TaskInput>
         <div id="inputDivider" className="divider"></div>
         {this.state.tasks.filter(x => !x.completed).length > 0 ?
           (this.state.tasks.filter(x => !x.completed).map(task => 
