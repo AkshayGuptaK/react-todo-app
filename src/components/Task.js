@@ -20,7 +20,7 @@ class Task extends React.Component {
       fetch("http://localhost:8080/task/" + this.props.id + '/' + field + '/' + value, {
         method: 'PUT',
         mode: "cors"
-      }) // error handling
+      }).then(res => this.props.apply(this.props.id, field, value)) // error handling
     }
     render() {
       return(
@@ -28,7 +28,7 @@ class Task extends React.Component {
         <EditField field='name' class='taskname' value={this.props.name} btnOnClass='acceptNameEditBtn' btnOffClass='editBtn' submitFunc={this.applyChanges}></EditField>
         <EditField field='description' class='taskdesc' value={this.props.desc} btnOnClass='acceptDescEditBtn' btnOffClass='describeBtn' submitFunc={this.applyChanges}></EditField>
         <ToggleBtn condition={this.props.completed} onClass='incompleteBtn' offClass='completeBtn' clickAction={this.completeTask}></ToggleBtn>
-        <button className='deleteBtn' onClick={this.delTask}></button>
+        <button className='taskDeleteBtn' onClick={this.delTask}></button>
         </div>
       )
     }

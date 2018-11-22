@@ -102,12 +102,23 @@ button:hover {
 #addlist {
     background: url('../public/images/add.png') no-repeat local;
     background-size: 100% 100%;
+}
+
+#returnBtn {
+    background: url('../public/images/return.png') no-repeat local;
+    background-size: 100% 100%;
+}
+
+.taskDeleteBtn, .listDeleteBtn {
+    background: url('../public/images/delete.png') no-repeat local;
+    background-size: 100% 100%;
+} 
+
+#addlist, #returnBtn, .listDeleteBtn {
     padding: 11px;
 }
 
-.deleteBtn {
-    background: url('../public/images/delete.png') no-repeat local;
-    background-size: 100% 100%;
+.taskDeleteBtn {
     grid-area: 2 / 3 / 4 / 4;
 }
 

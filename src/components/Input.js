@@ -1,6 +1,6 @@
 import React from "react"
 import {hot} from "react-hot-loader"
-import InputField from "./InputField.js"
+import InputField from "./InputField"
 
 class Input extends React.Component {
   constructor (props) {
