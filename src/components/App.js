@@ -33,11 +33,12 @@ class App extends React.Component {
   changeView (id) {
     this.setState({multiView: false, selected: this.state.lists.filter(x => x.id === id)[0]})
   }
-  returntoView (id, tasks) {
-    console.log('Letsura return!') // debug
-    let list = this.state.lists.filter(x => x.id === id)
-    list[0].tasks = tasks
-    this.setState({multiView: true, selected: {}, lists: this.state.lists.filter(x => x.id !== id).concat(list)})
+  returntoView (id, name, tasks) {
+    let newLists = this.state.lists
+    let list = newLists.filter(x => x.id === id)[0]
+    list.name = name
+    list.tasks = tasks
+    this.setState({multiView: true, selected: {}, lists: newLists})
   }
   componentDidMount() {
     console.log('Submitting get request')
@@ -115,7 +116,7 @@ class List extends React.Component {
         <CompletedTasksMessage completedTasks={this.props.tasks.filter(x => x.completed).length}></CompletedTasksMessage>
         <button className='listDeleteBtn' onClick={this.deleteList}></button>
       </div>
-    ) // onclick method needed
+    )
   }
 }
 

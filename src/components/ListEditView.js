@@ -1,13 +1,12 @@
 import React from "react"
 import {hot} from "react-hot-loader"
-import InputField from "./InputField"
 import Input from "./Input"
 import Task from "./Task"
 
 class ListEditView extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {tasks: this.props.tasks}
+    this.state = {name: this.props.name, tasks: this.props.tasks}
     this.addTask = this.addTask.bind(this)
     this.addTaskSuccess = this.addTaskSuccess.bind(this)
     this.delTask = this.delTask.bind(this)
@@ -16,6 +15,7 @@ class ListEditView extends React.Component {
     this.completeTaskSuccess = this.completeTaskSuccess.bind(this)
     this.applyChanges = this.applyChanges.bind(this)
     this.changeView = this.changeView.bind(this)
+    this.editName = this.editName.bind(this)
   }
   addTask (name, description) {
     console.log('Submitting post request', this.props.id, name, description) // debug
@@ -54,23 +54,32 @@ class ListEditView extends React.Component {
     this.setState({tasks: this.state.tasks.filter(x => x.id !== id).concat(task)})
   }
   applyChanges (id, field, value) {
-    let task = this.state.tasks.filter(x => x.id === id)
-    task[0][field] = value
-    this.setState({tasks: this.state.tasks.filter(x => x.id !== id).concat(task)})
+    let newTasks = this.state.tasks
+    newTasks.filter(x => x.id === id)[0][field] = value
+    this.setState({tasks: newTasks})
   }
   changeView () {
-    console.log('Trying to return') // debug
-    this.props.return(this.props.id, this.state.tasks)
+    this.props.return(this.props.id, this.state.name, this.state.tasks)
   }
+  editName (event) {
+    console.log('Submitting put request')
+    let newName = event.target.value
+    fetch("http://localhost:8080/list/" + this.props.id + '/' + newName, {
+      method: 'PUT',
+      mode: "cors"
+    }).then(res => this.setState({name: newName}))
+  } // error checking
   render() {
     return(
       <div className="App">
         <button id='returnBtn' onClick={this.changeView}></button>
-        <InputField value={this.props.name} id='inputTaskName'></InputField>
+        <input value={this.state.name} id='ListName' onChange={this.editName}></input>
         <Input submit={this.addTask}></Input>
         <div id="inputDivider" className="divider"></div>
-        {this.state.tasks.filter(x => !x.completed).map(task => 
-          {return <Task key={task.id} id={task.id} name ={task.name} desc={task.description} completed={task.completed} completeAction={this.completeTask} deleteAction={this.delTask} apply={this.applyChanges}></Task>})}
+        {this.state.tasks.filter(x => !x.completed).length > 0 ?
+          (this.state.tasks.filter(x => !x.completed).map(task => 
+            {return <Task key={task.id} id={task.id} name ={task.name} desc={task.description} completed={task.completed} completeAction={this.completeTask} deleteAction={this.delTask} apply={this.applyChanges}></Task>})
+          ) : <p className='emptymsg'>Twiddling my thumbs, nothing to do.</p>}
         <div id="completeDivider" className="divider"></div>
         <h2>Completed</h2>
         {this.state.tasks.filter(x => x.completed).map(task => 
