@@ -35,15 +35,7 @@ function formatTaskData (objects, ids) {
 }
 
 function formatListData (names, tasks, ids) {
-  for (let i=0; i<names.length; i++) {
-    if(tasks[i]) {
-      names[i]['tasks'] = tasks[i]
-    } else {
-      names[i]['tasks'] = []      
-    }
-    names[i]['id'] = ids[i]
-  }
-  return names
+  return names.map((list, index) => { return { 'name': list.name, 'id': ids[index], 'tasks': tasks[index]}})
 }
 
 async function getTasksOfList (listId) {
