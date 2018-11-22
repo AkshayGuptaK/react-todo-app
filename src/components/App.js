@@ -122,7 +122,7 @@ class List extends React.Component {
 
 function CompletedTasksMessage (props) {
   if (props.completedTasks > 0) {
-    return <p>{props.completedTasks} tasks completed</p>
+    return <p>+ {props.completedTasks} tasks completed</p>
   } return <p></p>
 }
 

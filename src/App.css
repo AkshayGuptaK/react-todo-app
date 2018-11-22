@@ -24,6 +24,14 @@ h2 {
     font-size: 1.5rem;
 }
 
+#ListName {
+    width: 90%;
+    min-width: 100px;
+    background-color: beige;
+    border-radius: 5px;
+    font-size: 3rem;
+}
+
 form {
     margin: 20px;
     display: table;
@@ -171,4 +179,25 @@ button:hover {
 
 #completeDivider {
     border-bottom: solid blue 1px;
+}
+
+.listContainer {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.todoList {
+    border: solid blue 2px;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
 }
