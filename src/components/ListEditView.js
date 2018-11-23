@@ -1,5 +1,4 @@
 import React from "react"
-import {hot} from "react-hot-loader"
 import TaskInput from "./TaskInput"
 import Task from "./Task"
 
@@ -89,4 +88,4 @@ class ListEditView extends React.Component {
   }
 }
 
-export default hot(module)(ListEditView)
+export default ListEditView

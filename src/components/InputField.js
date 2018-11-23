@@ -1,5 +1,4 @@
 import React from "react"
-import {hot} from "react-hot-loader"
 
 class InputField extends React.Component {
   render() {
@@ -14,4 +13,4 @@ class InputField extends React.Component {
   }
 }
 
-export default hot(module)(InputField)
+export default InputField

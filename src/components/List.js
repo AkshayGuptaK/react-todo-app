@@ -1,5 +1,4 @@
 import React from "react"
-import {hot} from "react-hot-loader"
 
 class List extends React.Component {
   constructor (props) {
@@ -33,4 +32,4 @@ function CompletedTasksMessage (props) {
   } return <p></p>
 }
 
-export default hot(module)(List)
+export default List

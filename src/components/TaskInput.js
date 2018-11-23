@@ -1,5 +1,4 @@
 import React from "react"
-import {hot} from "react-hot-loader"
 import InputField from "./InputField"
 
 class TaskInput extends React.Component {
@@ -28,4 +27,4 @@ class TaskInput extends React.Component {
   }
 }
 
-export default hot(module)(TaskInput)
+export default TaskInput

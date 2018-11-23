@@ -1,5 +1,4 @@
 import React from "react"
-import {hot} from "react-hot-loader"
 import InputField from "./InputField"
 
 class ListInput extends React.Component {
@@ -27,4 +26,4 @@ class ListInput extends React.Component {
     }
   }
 
-  export default hot(module)(ListInput)
+  export default ListInput
