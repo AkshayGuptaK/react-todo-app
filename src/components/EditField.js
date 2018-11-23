@@ -1,4 +1,5 @@
 import React from "react"
+import ToggleBtn from "./ToggleButton"
 
 class EditField extends React.Component {
   constructor (props) {
@@ -22,11 +23,4 @@ class EditField extends React.Component {
   }
 }
     
-function ToggleBtn (props) { // toggles between two button renders depending on condition
-  if (props.condition) {
-    return <button className={props.onClass} onClick={props.clickAction}></button>
-  }
-  return <button className={props.offClass} onClick={props.clickAction}></button>
-}
-
 export default EditField

@@ -6,5 +6,5 @@ function ToggleBtn (props) { // toggles between two button renders depending on 
   }
   return <button className={props.offClass} onClick={props.clickAction}></button>
 }
-  
+
 export default ToggleBtn
