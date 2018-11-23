@@ -6,7 +6,8 @@ class List extends React.Component {
     this.deleteList = this.deleteList.bind(this)
     this.editList = this.editList.bind(this)
   }
-  deleteList() { // send delete command to parent
+  deleteList(event) { // send delete command to parent
+    event.stopPropagation()
     this.props.delete(this.props.id)
   }
   editList() { // send select for editing command to parent

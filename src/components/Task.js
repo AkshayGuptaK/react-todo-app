@@ -1,5 +1,6 @@
 import React from "react"
 import EditField from "./EditField"
+import ToggleBtn from "./ToggleButton"
 
 class Task extends React.Component { // display of a single task
   constructor (props) {
