@@ -15,7 +15,7 @@ module.exports = {
       },
       {
         test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         loader: 'babel-loader',
         options: { presets: ['@babel/preset-env'] } // not sure if needed
       },
@@ -36,8 +36,8 @@ module.exports = {
     extensions: ["*", ".js", ".jsx"],
   },
   output: {
-    path: path.resolve(__dirname, "dist/"),
-    publicPath: "/dist/",
+    path: path.resolve(__dirname, "public/dist/"),
+    // publicPath: "/public/dist/",
     filename: "bundle.js"
   },
   devServer: {
@@ -45,7 +45,7 @@ module.exports = {
     port: 3000,
     publicPath: "http://localhost:3000/dist/",
     hotOnly: true
-  },  
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebPackPlugin({
