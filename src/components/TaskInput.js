@@ -1,13 +1,13 @@
 import React from "react"
 import InputField from "./InputField"
 
-class TaskInput extends React.Component {
+class TaskInput extends React.Component { // input form for new task
   constructor (props) {
     super(props)
     this.state = {'name': '', 'description': ''}
     this.addTask = this.addTask.bind(this)
   }
-  addTask (event) {
+  addTask (event) { // submits a valid task addition to parent
     event.preventDefault()
     if ( !/\S+/.test(this.state.name) ) {
       alert('Please enter a task name')

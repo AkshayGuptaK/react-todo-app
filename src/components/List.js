@@ -6,10 +6,10 @@ class List extends React.Component {
     this.deleteList = this.deleteList.bind(this)
     this.editList = this.editList.bind(this)
   }
-  deleteList() {
+  deleteList() { // send delete command to parent
     this.props.delete(this.props.id)
   }
-  editList() {
+  editList() { // send select for editing command to parent
     this.props.select(this.props.id)
   }
   render() {
@@ -26,7 +26,7 @@ class List extends React.Component {
   }
 }
   
-function CompletedTasksMessage (props) {
+function CompletedTasksMessage (props) { // msg to show # of completed tasks
   if (props.completedTasks > 0) {
     return <p>+ {props.completedTasks} tasks completed</p>
   } return <p></p>

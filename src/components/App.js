@@ -14,7 +14,7 @@ class App extends React.Component {
     this.changeView = this.changeView.bind(this)
     this.returntoView = this.returntoView.bind(this)
   }
-  addList (name) {
+  addList (name) { // add a new to-do list
     console.log('Submitting post request')
     fetch("http://localhost:8080/list/" + name, {
       method: 'POST',
@@ -22,7 +22,7 @@ class App extends React.Component {
     }).then(res => res.json())
     .then(res => this.setState({lists: this.state.lists.concat([{ 'id': res.id, 'name': name, 'tasks': [] }])}))
   }
-  deleteList (id) {
+  deleteList (id) { // delete existing to-do list
     console.log('Submitting delete request')
     fetch("http://localhost:8080/list/" + id, {
       method: 'DELETE',
@@ -31,17 +31,17 @@ class App extends React.Component {
     .then(res => this.setState({lists: this.state.lists.filter(x => x.id !== id)}))
     // check for errors
   }
-  changeView (id) {
+  changeView (id) {  // change to single list view
     this.setState({multiView: false, selected: this.state.lists.filter(x => x.id === id)[0]})
   }
-  returntoView (id, name, tasks) {
+  returntoView (id, name, tasks) { // return to multi list view
     let newLists = this.state.lists
     let list = newLists.filter(x => x.id === id)[0]
     list.name = name
     list.tasks = tasks
     this.setState({multiView: true, selected: {}, lists: newLists})
   }
-  componentDidMount() {
+  componentDidMount() { // get all list data
     console.log('Submitting get request')
     fetch("http://localhost:8080/all", {
       method: 'GET',

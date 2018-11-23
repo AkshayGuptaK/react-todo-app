@@ -1,6 +1,7 @@
 import React from "react"
 
-class InputField extends React.Component {
+class InputField extends React.Component { 
+  // input field that submits changes to parent and receives updated values back
   render() {
     return(
       <input
