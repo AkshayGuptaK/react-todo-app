@@ -27,10 +27,14 @@ h2 {
 #ListName {
     width: 90%;
     min-width: 100px;
-    background-color: beige;
+    border: none;
     border-radius: 5px;
     font-size: 3rem;
     text-align: center;
+    background-color: rgba(245, 245, 220, 0.8);
+    text-overflow: ellipsis;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 form {
@@ -94,10 +98,6 @@ input[disabled] {
     color: black;
 }
 
-button:hover {
-    background-color: lightblue;
-}
-
 #addtask {
     background: url('../public/images/add.png') no-repeat local;
     background-size: 100% 100%;
@@ -111,6 +111,9 @@ button:hover {
 #addlist {
     background: url('../public/images/add.png') no-repeat local;
     background-size: 100% 100%;
+    padding: 14px;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 #returnBtn {
@@ -119,6 +122,8 @@ button:hover {
     padding: 16px;
     margin: 0px 10px 0px 20px;
     border-radius: 5px;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .taskDeleteBtn, .listDeleteBtn {
@@ -126,7 +131,7 @@ button:hover {
     background-size: 100% 100%;
 } 
 
-#addlist, .listDeleteBtn {
+.listDeleteBtn {
     padding: 11px;
 }
 
@@ -171,6 +176,10 @@ button:hover {
     grid-area: 2 / 2 / 4 / 3;
 }
 
+button:hover {
+    background-color: lightblue !important;
+}
+
 #inputDivider, #completeDivider {
     margin: auto;
     width: 80%;
@@ -188,6 +197,7 @@ button:hover {
 .listContainer {
     display: flex;
     flex-flow: row wrap;
+    align-items: flex-start;
 }
 
 .todoList {

@@ -47,7 +47,7 @@ class App extends React.Component {
       method: 'GET',
       mode: "cors"
     }).then(res => res.json())
-    .then(res => this.setState({lists: res}, () => console.log(this.state.lists))) // debug
+    .then(res => this.setState({lists: res}))
   }
   render() {
     return(

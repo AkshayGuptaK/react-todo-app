@@ -6,7 +6,7 @@ import Task from "./Task"
 class ListEditView extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {name: this.props.name, tasks: this.props.tasks, nameEdit: true}
+    this.state = {name: this.props.name, tasks: this.props.tasks}
     this.addTask = this.addTask.bind(this)
     this.addTaskSuccess = this.addTaskSuccess.bind(this)
     this.delTask = this.delTask.bind(this)
@@ -73,7 +73,7 @@ class ListEditView extends React.Component {
     return(
       <div className="App">
         <button id='returnBtn' onClick={this.changeView}></button>
-        <input value={this.state.name} id='ListName' disabled={this.state.nameEdit} onChange={this.editName} onClick={(e) => console.log('click')} onBlur={(e) => this.setState({nameEdit: true})}></input>
+        <input value={this.state.name} id='ListName' onChange={this.editName}></input>
         <TaskInput submit={this.addTask}></TaskInput>
         <div id="inputDivider" className="divider"></div>
         {this.state.tasks.filter(x => !x.completed).length > 0 ?
