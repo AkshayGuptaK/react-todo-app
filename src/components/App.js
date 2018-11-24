@@ -11,32 +11,28 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {lists: [], selectedList: null}
-    this.addList = this.addList.bind(this)
-    this.deleteList = this.deleteList.bind(this)
-    this.changeView = this.changeView.bind(this)
-    this.returntoView = this.returntoView.bind(this)
   }
   componentDidMount() { // get all list data
     fetchRequests.getAllData().then(res => this.setState({lists: res}))
   }
-  addList (name) { // add a new to-do list
+  addList = (name) => { // add a new to-do list
     fetchRequests.createList(name)
     .then(res => res ? 
       this.setState({lists: [{ "id": res.id, "name": name, "tasks": [] }].concat(this.state.lists)})
       : console.log('Error in request to database')
     )
   }
-  deleteList (id) { // delete existing to-do list
+  deleteList = (id) => { // delete existing to-do list
     fetchRequests.deleteList(id)
     .then(res => res ?
       this.setState({lists: this.state.lists.filter(x => x.id !== id)})
       : console.log('Error in request to database')
     )
   }
-  changeView (id) {  // change to single list view
+  changeView = (id) => {  // change to single list view
     this.setState({selectedList: id})
   }
-  returntoView (id, name, tasks) { // return to multi list view
+  returntoView = (id, name, tasks) => { // return to multi list view
     let newLists = this.state.lists
     let list = newLists.filter(x => x.id === id)[0]
     list.name = name

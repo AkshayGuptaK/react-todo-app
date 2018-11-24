@@ -6,9 +6,8 @@ class EditField extends React.Component {
   constructor (props) {
     super(props)
     this.state = {value: props.value, editOn: false}
-    this.handleClick = this.handleClick.bind(this)
   }
-  handleClick (event) {
+  handleClick = (event) => {
     if (this.state.editOn) {
       this.props.submitFunc(this.props.field, this.state.value)
     }

@@ -3,14 +3,12 @@ import React from "react"
 class List extends React.Component {
   constructor (props) {
     super(props)
-    this.deleteList = this.deleteList.bind(this)
-    this.editList = this.editList.bind(this)
   }
-  deleteList(event) { // send delete command to parent
+  deleteList = (event) => { // send delete command to parent
     event.stopPropagation()
     this.props.delete(this.props.id)
   }
-  editList() { // send select for editing command to parent
+  editList = () => { // send select for editing command to parent
     this.props.select(this.props.id)
   }
   render() {

@@ -7,17 +7,14 @@ import fetchRequests from "../fetch"
 class Task extends React.Component { // display of a single task
   constructor (props) {
     super(props)
-    this.delTask = this.delTask.bind(this)
-    this.completeTask = this.completeTask.bind(this)
-    this.applyChanges = this.applyChanges.bind(this)
   }
-  delTask() { // submits a delete command to parent
+  delTask = () => { // submits a delete command to parent
     this.props.deleteAction(this.props.id)
   }
-  completeTask() { // submits a complete command to parent
+  completeTask = () => { // submits a complete command to parent
     this.props.completeAction(this.props.id, !this.props.completed)
   }
-  applyChanges(field, value) { // submits an edit to db and submits modifications to parent on success
+  applyChanges = (field, value) => { // submits an edit to db and submits modifications to parent on success
     fetchRequests.changeTask(this.props.id, field, value)
     .then(res => res ? this.props.apply(this.props.id, field, value) : console.log('Error in request to database'))
   }

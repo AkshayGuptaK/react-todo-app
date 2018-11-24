@@ -7,7 +7,7 @@ class TaskInput extends React.Component { // input form for new task
     this.state = {"name": "", "description": ""}
     this.addTask = this.addTask.bind(this)
   }
-  addTask (event) { // submits a valid task addition to parent
+  addTask = (event) => { // submits a valid task addition to parent
     event.preventDefault()
     if ( !/\S+/.test(this.state.name) ) {
       alert("Please enter a task name")

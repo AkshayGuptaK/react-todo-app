@@ -5,9 +5,8 @@ class ListInput extends React.Component { // input form for adding new lists
   constructor (props) {
     super(props)
     this.state = {"name": ""}
-    this.addList = this.addList.bind(this)
   }
-  addList (event) { // submit a list add command to parent
+  addList = (event) => { // submit a list add command to parent
     event.preventDefault()
     if ( !/\S+/.test(this.state.name) ) {
       alert("Please enter a list name")
