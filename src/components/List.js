@@ -15,13 +15,13 @@ class List extends React.Component {
   }
   render() {
     return(
-      <div className='todoList' onClick={this.editList}>
+      <div className="todoList" onClick={this.editList}>
         <h2>{this.props.name}</h2>
         <ul>
           {this.props.tasks.filter(x => !x.completed).map(task => {return <li key={task.id}>{task.name}</li>})}
         </ul>
         <CompletedTasksMessage completedTasks={this.props.tasks.filter(x => x.completed).length}></CompletedTasksMessage>
-        <button className='listDeleteBtn' onClick={this.deleteList}></button>
+        <button className="listDeleteBtn" onClick={this.deleteList}></button>
       </div>
     )
   }

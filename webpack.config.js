@@ -1,7 +1,7 @@
-'use strict'
+"use strict"
 
-const path = require('path')
-const webpack = require('webpack')
+const path = require("path")
+const webpack = require("webpack")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = {
@@ -16,19 +16,19 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
-        loader: 'babel-loader',
-        options: { presets: ['@babel/preset-env'] } // not sure if needed
+        loader: "babel-loader",
+        options: { presets: ["@babel/preset-env"] } // not sure if needed
       },
       {
         test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader'
+          "style-loader",
+          "css-loader"
         ]
       },
       {
         test: /\.(png|jpg)$/,
-        loader: 'url-loader'
+        loader: "url-loader"
       }
     ]
   },

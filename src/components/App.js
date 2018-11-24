@@ -21,7 +21,7 @@ class App extends React.Component {
   }
   addList (name) { // add a new to-do list
     fetchRequests.createList(name)
-    .then(res => this.setState({lists: this.state.lists.concat([{ 'id': res.id, 'name': name, 'tasks': [] }])}))
+    .then(res => this.setState({lists: this.state.lists.concat([{ "id": res.id, "name": name, "tasks": [] }])}))
   }
   deleteList (id) { // delete existing to-do list
     fetchRequests.deleteList(id)
@@ -51,7 +51,7 @@ class App extends React.Component {
             <h1>Carpe Diem</h1>
             <ListInput submit={this.addList}></ListInput>
             <div id="inputDivider" className="divider"></div>
-            <div className='listContainer'>
+            <div className="listContainer">
               {this.state.lists.map(list => 
                 {return <List key={list.id} id={list.id} name={list.name} tasks={list.tasks} delete={this.deleteList} select={this.changeView}></List>})}
             </div>

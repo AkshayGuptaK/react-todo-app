@@ -26,7 +26,7 @@ class ListEditView extends React.Component {
   }
   addTask (name, description) { // add a new task to this list
     fetchRequests.createTask(this.props.id, name, description)
-    .then(res => this.setState({tasks: this.state.tasks.concat([{'id': res.id, 'name': name, 'description': description, 'completed': false}])}))
+    .then(res => this.setState({tasks: this.state.tasks.concat([{"id": res.id, "name": name, "description": description, "completed": false}])}))
   }
   delTask (id) { // delete an existing task
     fetchRequests.deleteTask(this.props.id, id)
@@ -49,14 +49,14 @@ class ListEditView extends React.Component {
   render() {
     return(
       <div className="App">
-        <button id='returnBtn' onClick={this.changeView}></button>
-        <input value={this.state.name} id='ListName' onChange={this.editName}></input>
+        <button id="returnBtn" onClick={this.changeView}></button>
+        <input value={this.state.name} id="ListName" onChange={this.editName}></input>
         <TaskInput submit={this.addTask}></TaskInput>
         <div id="inputDivider" className="divider"></div>
         {this.state.tasks.filter(x => !x.completed).length > 0 ?
           (this.state.tasks.filter(x => !x.completed).map(task => 
             {return <Task key={task.id} id={task.id} name ={task.name} desc={task.description} completed={task.completed} completeAction={this.completeTask} deleteAction={this.delTask} apply={this.applyChanges}></Task>})
-          ) : <p className='emptymsg'>Twiddling my thumbs, nothing to do.</p>}
+          ) : <p className="emptymsg">Twiddling my thumbs, nothing to do.</p>}
         <div id="completeDivider" className="divider"></div>
         <h2>Completed</h2>
         {this.state.tasks.filter(x => x.completed).map(task => 

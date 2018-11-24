@@ -5,7 +5,7 @@ class InputField extends React.Component {
   render() {
     return(
       <input
-      type='text' 
+      type="text"
       id={this.props.id} 
       value={this.props.value} 
       onChange={(e)=>{this.props.update(e.target.value)}}>
