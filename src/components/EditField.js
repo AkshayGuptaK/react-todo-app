@@ -1,4 +1,5 @@
 import React from "react"
+
 import ToggleBtn from "./ToggleButton"
 
 class EditField extends React.Component {
@@ -22,5 +23,5 @@ class EditField extends React.Component {
     )
   }
 }
-    
+
 export default EditField

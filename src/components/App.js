@@ -10,7 +10,7 @@ import fetchRequests from "../fetch"
 class App extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {lists: [], multiView: true, selected: {}}
+    this.state = {lists: [], selectedList: null}
     this.addList = this.addList.bind(this)
     this.deleteList = this.deleteList.bind(this)
     this.changeView = this.changeView.bind(this)
@@ -28,19 +28,25 @@ class App extends React.Component {
     .then(res => this.setState({lists: this.state.lists.filter(x => x.id !== id)}))
   }
   changeView (id) {  // change to single list view
-    this.setState({multiView: false, selected: this.state.lists.filter(x => x.id === id)[0]})
+    this.setState({selectedList: id})
   }
   returntoView (id, name, tasks) { // return to multi list view
     let newLists = this.state.lists
     let list = newLists.filter(x => x.id === id)[0]
     list.name = name
     list.tasks = tasks
-    this.setState({multiView: true, selected: {}, lists: newLists})
+    this.setState({selectedList: null, lists: newLists})
   }
   render() {
     return(
       <div>
-        {this.state.multiView ? (
+        {this.state.selectedList ? (
+          <ListEditView id={this.state.selectedList}
+            name={this.state.lists.filter(x => x.id === this.state.selectedList)[0].name}
+            tasks={this.state.lists.filter(x => x.id === this.state.selectedList)[0].tasks}
+            return={this.returntoView}>
+          </ListEditView>
+        ) : (
           <div>
             <h1>Carpe Diem</h1>
             <ListInput submit={this.addList}></ListInput>
@@ -50,8 +56,6 @@ class App extends React.Component {
                 {return <List key={list.id} id={list.id} name={list.name} tasks={list.tasks} delete={this.deleteList} select={this.changeView}></List>})}
             </div>
           </div>
-        ) : (
-          <ListEditView id={this.state.selected.id} name={this.state.selected.name} tasks={this.state.selected.tasks} return={this.returntoView}></ListEditView>
         )}
       </div>
     )
