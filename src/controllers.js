@@ -1,11 +1,11 @@
 const redis = require('redis')
 const util = require('util')
+
 const client = redis.createClient()
 const hgetall = util.promisify(client.hgetall).bind(client)
 const lrange = util.promisify(client.lrange).bind(client)
 
 // Connection event handlers
-
 client.on('connect', function() {
   console.log('Redis client connected')
 })
