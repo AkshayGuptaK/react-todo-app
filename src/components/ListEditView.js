@@ -1,15 +1,15 @@
-import React from "react"
+import React from 'react'
 
-import TaskInput from "./TaskInput"
-import Task from "./Task"
-import fetchRequests from "../fetch"
+import TaskInput from './TaskInput'
+import Task from './Task'
+import fetchRequests from '../fetch'
 
 class ListEditView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {name: this.props.name, tasks: this.props.tasks}
   }
-  changeView () { // return to multi list view
+  changeView = () => { // return to multi list view
     this.props.return(this.props.id, this.state.name, this.state.tasks)
   }
   editName = (event) => { // keep db and local field containing list name in sync
@@ -20,7 +20,7 @@ class ListEditView extends React.Component {
   addTask = (name, description) => { // add a new task to this list
     fetchRequests.createTask(this.props.id, name, description)
     .then(res => res ? 
-      this.setState({tasks: [{"id": res.id, "name": name, "description": description, "completed": false}].concat(this.state.tasks)})
+      this.setState({tasks: [{'id': res.id, 'name': name, 'description': description, 'completed': false}].concat(this.state.tasks)})
       : console.log('Error in request to database')
     )
   }
@@ -47,16 +47,16 @@ class ListEditView extends React.Component {
   }
   render() {
     return(
-      <div className="App">
-        <button id="returnBtn" onClick={this.changeView}></button>
-        <input value={this.state.name} id="ListName" onChange={this.editName}></input>
+      <div className='App'>
+        <button id='returnBtn' onClick={this.changeView}></button>
+        <input value={this.state.name} id='ListName' onChange={this.editName}></input>
         <TaskInput submit={this.addTask}></TaskInput>
-        <div id="inputDivider" className="divider"></div>
+        <div id='inputDivider' className='divider'></div>
         {this.state.tasks.filter(x => !x.completed).length > 0 ?
           (this.state.tasks.filter(x => !x.completed).map(task => 
             {return <Task key={task.id} id={task.id} name ={task.name} desc={task.description} completed={task.completed} completeAction={this.completeTask} deleteAction={this.delTask} apply={this.applyChanges}></Task>})
-          ) : <p className="emptymsg">Twiddling my thumbs, nothing to do.</p>}
-        <div id="completeDivider" className="divider"></div>
+          ) : <p className='emptymsg'>Twiddling my thumbs, nothing to do.</p>}
+        <div id='completeDivider' className='divider'></div>
         <h2>Completed</h2>
         {this.state.tasks.filter(x => x.completed).map(task => 
           {return <Task key={task.id} id={task.id} name={task.name} desc={task.description} completed={task.completed} completeAction={this.completeTask} deleteAction={this.delTask} apply={this.applyChanges}></Task>})}

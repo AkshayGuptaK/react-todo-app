@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 function ToggleBtn (props) { // toggles between two button renders depending on condition
   if (props.condition) {

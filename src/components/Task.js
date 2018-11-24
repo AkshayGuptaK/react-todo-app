@@ -1,8 +1,8 @@
-import React from "react"
+import React from 'react'
 
-import EditField from "./EditField"
-import ToggleBtn from "./ToggleButton"
-import fetchRequests from "../fetch"
+import EditField from './EditField'
+import ToggleBtn from './ToggleButton'
+import fetchRequests from '../fetch'
 
 class Task extends React.Component { // display of a single task
   constructor (props) {
@@ -20,11 +20,11 @@ class Task extends React.Component { // display of a single task
   }
   render() {
     return(
-      <div className="task">
-      <EditField field="name" class="taskname" value={this.props.name} btnOnClass="acceptNameEditBtn" btnOffClass="editBtn" submitFunc={this.applyChanges}></EditField>
-      <EditField field="description" class="taskdesc" value={this.props.desc} btnOnClass="acceptDescEditBtn" btnOffClass="describeBtn" submitFunc={this.applyChanges}></EditField>
-      <ToggleBtn condition={this.props.completed} onClass="incompleteBtn" offClass="completeBtn" clickAction={this.completeTask}></ToggleBtn>
-      <button className="taskDeleteBtn" onClick={this.delTask}></button>
+      <div className='task'>
+      <EditField field='name' class='taskname' value={this.props.name} btnOnClass='acceptNameEditBtn' btnOffClass='editBtn' submitFunc={this.applyChanges}></EditField>
+      <EditField field='description' class='taskdesc' value={this.props.desc} btnOnClass='acceptDescEditBtn' btnOffClass='describeBtn' submitFunc={this.applyChanges}></EditField>
+      <ToggleBtn condition={this.props.completed} onClass='incompleteBtn' offClass='completeBtn' clickAction={this.completeTask}></ToggleBtn>
+      <button className='taskDeleteBtn' onClick={this.delTask}></button>
       </div>
     )
   }

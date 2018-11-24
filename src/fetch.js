@@ -1,38 +1,38 @@
-import config from "../config"
+import config from '../config'
 
 function fetchCors (url, reqType) {
   console.log(`Submitting ${reqType} request`)
   return fetch(url, {
     method: reqType,
-    mode: "cors"
+    mode: 'cors'
   }).then(res => res.json())
-  .then(res => res.error ? false : res)
+    .then(res => res.error ? false : res)
 }
 
 class fetchRequests {
   static getAllData () {
-    return fetchCors(`${config.domain}/all`, "GET")
+    return fetchCors(`${config.domain}/all`, 'GET')
   }
   static createList (name) {
-    return fetchCors(`${config.domain}/list/${name}`, "POST")
+    return fetchCors(`${config.domain}/list/${name}`, 'POST')
   }
   static deleteList (id) {
-    return fetchCors(`${config.domain}/list/${id}`, "DELETE")
+    return fetchCors(`${config.domain}/list/${id}`, 'DELETE')
   }
   static changeListName (id, name) {
-    return fetchCors(`${config.domain}/list/${id}/${name}`, "PUT")
+    return fetchCors(`${config.domain}/list/${id}/${name}`, 'PUT')
   }
   static createTask (id, name, description) {
-    return fetchCors(`${config.domain}/task/${id}/${name}/${description}`, "POST")
+    return fetchCors(`${config.domain}/task/${id}/${name}/${description}`, 'POST')
   }
   static deleteTask (listId, taskId) {
-    return fetchCors(`${config.domain}/task/${listId}/${taskId}`, "DELETE")
+    return fetchCors(`${config.domain}/task/${listId}/${taskId}`, 'DELETE')
   }
   static completeTask (id, completed) {
-    return fetchCors(`${config.domain}/task/${id}/completed/${completed}`, "PUT")
+    return fetchCors(`${config.domain}/task/${id}/completed/${completed}`, 'PUT')
   }
   static changeTask (id, field, value) {
-    return fetchCors(`${config.domain}/task/${id}/${field}/${value}`, "PUT")
+    return fetchCors(`${config.domain}/task/${id}/${field}/${value}`, 'PUT')
   }
 }
 

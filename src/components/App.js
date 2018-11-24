@@ -1,11 +1,11 @@
-import React from "react"
-import {hot} from "react-hot-loader"
+import React from 'react'
+import {hot} from 'react-hot-loader'
 
-import "../App.css"
-import ListInput from "./ListInput"
-import List from "./List"
-import ListEditView from "./ListEditView"
-import fetchRequests from "../fetch"
+import '../App.css'
+import ListInput from './ListInput'
+import List from './List'
+import ListEditView from './ListEditView'
+import fetchRequests from '../fetch'
 
 class App extends React.Component {
   constructor (props) {
@@ -18,7 +18,7 @@ class App extends React.Component {
   addList = (name) => { // add a new to-do list
     fetchRequests.createList(name)
     .then(res => res ? 
-      this.setState({lists: [{ "id": res.id, "name": name, "tasks": [] }].concat(this.state.lists)})
+      this.setState({lists: [{ 'id': res.id, 'name': name, 'tasks': [] }].concat(this.state.lists)})
       : console.log('Error in request to database')
     )
   }
@@ -52,8 +52,8 @@ class App extends React.Component {
           <div>
             <h1>Carpe Diem</h1>
             <ListInput submit={this.addList}></ListInput>
-            <div id="inputDivider" className="divider"></div>
-            <div className="listContainer">
+            <div id='inputDivider' className='divider'></div>
+            <div className='listContainer'>
               {this.state.lists.map(list => 
                 {return <List key={list.id} id={list.id} name={list.name} tasks={list.tasks} delete={this.deleteList} select={this.changeView}></List>})}
             </div>
