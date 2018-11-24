@@ -1,56 +1,46 @@
-"use strict"
+'use strict'
 
-const path = require("path")
-const webpack = require("webpack")
-const HtmlWebPackPlugin = require("html-webpack-plugin")
+const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: './src/index.js',
   module: {
     rules: [
       {
-        test: /\.html$/,
-        loader: "html-loader",
-        options: { minimize: true }
-      },
-      {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
-        loader: "babel-loader",
-        options: { presets: ["@babel/preset-env"] } // not sure if needed
+        loader: 'babel-loader',
+        options: { presets: ['@babel/preset-env'] } // not sure if needed
       },
       {
         test: /\.css$/,
         use: [
-          "style-loader",
-          "css-loader"
+          'style-loader',
+          'css-loader'
         ]
       },
       {
         test: /\.(png|jpg)$/,
-        loader: "url-loader"
+        loader: 'url-loader'
       }
     ]
   },
-  resolve: { 
-    extensions: ["*", ".js", ".jsx"],
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
   },
   output: {
-    path: path.resolve(__dirname, "public/dist/"),
-    // publicPath: "/public/dist/",
-    filename: "bundle.js"
+    path: path.resolve(__dirname, 'public/dist/'),
+    // publicPath: '/public/dist/',
+    filename: 'bundle.js'
   },
   devServer: {
-    contentBase: path.join(__dirname, "public/"),
+    contentBase: path.join(__dirname, 'public/'),
     port: 3000,
-    publicPath: "http://localhost:3000/dist/",
+    publicPath: 'http://localhost:3000/dist/',
     hotOnly: true
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebPackPlugin({
-        template: "./public/index.html",
-        filename: "./index.html"
-    })
+    new webpack.HotModuleReplacementPlugin()
   ]
 }
