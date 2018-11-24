@@ -7,7 +7,8 @@ class InputField extends React.Component {
       <input
       type="text"
       id={this.props.id} 
-      value={this.props.value} 
+      value={this.props.value}
+      placeholder={this.props.placeholder}
       onChange={(e)=>{this.props.update(e.target.value)}}>
       </input>
     )

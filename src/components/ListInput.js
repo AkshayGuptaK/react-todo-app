@@ -19,7 +19,7 @@ class ListInput extends React.Component { // input form for adding new lists
   render() {
     return(
       <form className="ListInput">
-        <InputField id="inputTaskName" value={this.state.name} update={(value)=>{this.setState({"name": value})}}></InputField>
+        <InputField id="inputTaskName" value={this.state.name} placeholder="Enter a List Name" update={(value)=>{this.setState({"name": value})}}></InputField>
         <button id="addlist" onClick={this.addList}></button>
       </form>
     )

@@ -19,8 +19,8 @@ class TaskInput extends React.Component { // input form for new task
   render() {
     return(
       <form>
-      <InputField id="inputTaskName" value={this.state.name} update={(value)=>{this.setState({"name": value})}}></InputField>
-      <InputField id="inputTaskDescription" value={this.state.description} update={(value)=>{this.setState({"description": value})}}></InputField>
+      <InputField id="inputTaskName" value={this.state.name} placeholder="Enter a Task" update={(value)=>{this.setState({"name": value})}}></InputField>
+      <InputField id="inputTaskDescription" value={this.state.description} placeholder="Enter a Description" update={(value)=>{this.setState({"description": value})}}></InputField>
       <button id="addtask" onClick={this.addTask}></button>
       </form>
     )
