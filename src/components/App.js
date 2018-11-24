@@ -21,11 +21,17 @@ class App extends React.Component {
   }
   addList (name) { // add a new to-do list
     fetchRequests.createList(name)
-    .then(res => this.setState({lists: this.state.lists.concat([{ "id": res.id, "name": name, "tasks": [] }])}))
+    .then(res => res ? 
+      this.setState({lists: this.state.lists.concat([{ "id": res.id, "name": name, "tasks": [] }])})
+      : console.log('Error in request to database')
+    )
   }
   deleteList (id) { // delete existing to-do list
     fetchRequests.deleteList(id)
-    .then(res => this.setState({lists: this.state.lists.filter(x => x.id !== id)}))
+    .then(res => res ?
+      this.setState({lists: this.state.lists.filter(x => x.id !== id)})
+      : console.log('Error in request to database')
+    )
   }
   changeView (id) {  // change to single list view
     this.setState({selectedList: id})

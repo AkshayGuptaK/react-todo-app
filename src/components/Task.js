@@ -19,7 +19,7 @@ class Task extends React.Component { // display of a single task
   }
   applyChanges(field, value) { // submits an edit to db and submits modifications to parent on success
     fetchRequests.changeTask(this.props.id, field, value)
-    .then(res => this.props.apply(this.props.id, field, value))
+    .then(res => res ? this.props.apply(this.props.id, field, value) : console.log('Error in request to database'))
   }
   render() {
     return(

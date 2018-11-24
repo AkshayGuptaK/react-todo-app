@@ -5,7 +5,8 @@ function fetchCors (url, reqType) {
   return fetch(url, {
     method: reqType,
     mode: "cors"
-  }).then(res => res.json()).catch(() => "") // in case of response being invalid json
+  }).then(res => res.json())
+  .then(res => res.error ? false : res)
 }
 
 class fetchRequests {

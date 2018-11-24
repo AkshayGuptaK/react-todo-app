@@ -48,7 +48,7 @@ async function getTasksOfList (listId) {
 
 exports.getAllData = async function (req, res) {
   console.log("I got a get request")
-  let ids = await lrange("lists", 0, -1)
+  let ids = await lrange("lists", 0, -1).catch()
   let listNames = await Promise.all(ids.map(id => hgetall(id)))
   let listTasks = await Promise.all(ids.map(id => getTasksOfList(id)))
   res.send(formatListData(listNames, listTasks, ids))
@@ -58,20 +58,17 @@ exports.addList = function (req, res) {
   console.log("I got a post request")
   client.incr("index", function(err, id) {
     if (err) {
-      console.log("error is", err)
-      res.send(err)
+      res.send({"error": err})
     } else {
       client.lpush("lists", id, function(err, success) {
         if (err) {
-          console.log("error is", err)
-          res.send(err)
+          res.send({"error": err})
         } else {
           client.hmset(id, "name", req.params.name, function(err, success) {
             if (err) {
-              res.send(err)
-              console.log("error is", err)
+              res.send({"error": err})
             } else {
-              console.log("id is", id)
+              console.log("List added")
               res.send({"id": id})
             }
           })
@@ -85,10 +82,10 @@ exports.editList = function (req, res) {
   console.log("I got an edit request")
   client.hset(req.params.listId, "name", req.params.name, function(err, result) {
     if (err) {
-      res.send(err)
-      console.log("error is", err)
+      res.send({"error": err})
     } else {
-      res.send()
+      console.log("List name changed")
+      res.send({"status": result})
     }
   })
 }
@@ -97,8 +94,7 @@ exports.deleteList = function (req, res) {
   console.log("I got a delete request")
   client.hdel(req.params.listId, "name", function(err, result) {
     if (err) {
-      res.send(err)
-      console.log("error is", err)
+      res.send({"error": err})
     } else {
       client.lrem("lists", 1, req.params.listId)
       console.log("List deleted")
@@ -114,20 +110,17 @@ exports.addTask = function (req, res) {
   }
   client.incr("index", function(err, id) {
     if (err) {
-      console.log("error is", err)
-      res.send(err)
+      res.send({"error": err})
     } else {
       client.lpush(taskListId(req.params.listId), id, function(err, success) {
         if (err) {
-          console.log("error is", err)
-          res.send(err)
+          res.send({"error": err})
         } else {
           client.hmset(id, "name", req.params.name, "description", req.params.desc, "completed", false, function(err, success) {
             if (err) {
-              res.send(err)
-              console.log("error is", err)
+              res.send({"error": err})
             } else {
-              console.log("id is", id)
+              console.log("Task added")
               res.send({"id": id})
             }
           })
@@ -141,10 +134,9 @@ exports.editTask = function (req, res) {
   console.log("I got an edit request")
   client.hset(req.params.taskId, req.params.field, req.params.value, function(err, result) {
     if (err) {
-      res.send(err)
-      console.log("error is", err)
+      res.send({"error": err})
     } else {
-      res.send()
+      res.send({"status": result})
     }
   })
 }
@@ -153,8 +145,7 @@ exports.deleteTask = function (req, res) {
   console.log("I got a delete request")
   client.hdel(req.params.taskId, "name", "description", "completed", function(err, result) {
     if (err) {
-      res.send(err)
-      console.log("error is", err)
+      res.send({"error": err})
     } else {
       client.lrem(taskListId(req.params.listId), 1, req.params.taskId)
       console.log("Task deleted")

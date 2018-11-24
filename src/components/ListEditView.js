@@ -22,19 +22,25 @@ class ListEditView extends React.Component {
   editName (event) { // keep db and local field containing list name in sync
     let newName = event.target.value
     fetchRequests.changeListName(this.props.id, newName)
-    .then(res => this.setState({name: newName}))
+    .then(res => res ? this.setState({name: newName}) : console.log('Error in request to database'))
   }
   addTask (name, description) { // add a new task to this list
     fetchRequests.createTask(this.props.id, name, description)
-    .then(res => this.setState({tasks: this.state.tasks.concat([{"id": res.id, "name": name, "description": description, "completed": false}])}))
+    .then(res => res ? 
+      this.setState({tasks: this.state.tasks.concat([{"id": res.id, "name": name, "description": description, "completed": false}])})
+      : console.log('Error in request to database')
+    )
   }
   delTask (id) { // delete an existing task
     fetchRequests.deleteTask(this.props.id, id)
-    .then(res => this.setState({tasks: this.state.tasks.filter(x => x.id !== id)}))
+    .then(res => res ? 
+      this.setState({tasks: this.state.tasks.filter(x => x.id !== id)})
+      : console.log('Error in request to database')
+    )
   }
   completeTask (id, completed) { // send db request to modify task completion status
     fetchRequests.completeTask(id, completed)
-    .then(res => this.completeTaskSuccess(id, completed))
+    .then(res => res ? this.completeTaskSuccess(id, completed) : console.log('Error in request to database'))
   }
   completeTaskSuccess (id, completed) { // modify task completion in state to match db
     let task = this.state.tasks.filter(x => x.id === id)
