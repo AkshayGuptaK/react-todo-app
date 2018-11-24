@@ -1,6 +1,8 @@
 import React from "react"
+
 import EditField from "./EditField"
 import ToggleBtn from "./ToggleButton"
+import fetchRequests from "../fetch"
 
 class Task extends React.Component { // display of a single task
   constructor (props) {
@@ -16,11 +18,8 @@ class Task extends React.Component { // display of a single task
     this.props.completeAction(this.props.id, !this.props.completed)
   }
   applyChanges(field, value) { // submits an edit to db and submits modifications to parent on success
-    console.log('Submitting put request')
-    fetch("http://localhost:8080/task/" + this.props.id + '/' + field + '/' + value, {
-      method: 'PUT',
-      mode: "cors"
-    }).then(res => this.props.apply(this.props.id, field, value)) // error handling
+    fetchRequests.changeTask(this.props.id, field, value)
+    .then(res => this.props.apply(this.props.id, field, value))
   }
   render() {
     return(
@@ -33,5 +32,5 @@ class Task extends React.Component { // display of a single task
     )
   }
 }
-  
+
 export default Task

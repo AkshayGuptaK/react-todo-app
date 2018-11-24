@@ -41,6 +41,6 @@
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
     "react-hot-loader": "^4.3.12",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0" 
   }
 }

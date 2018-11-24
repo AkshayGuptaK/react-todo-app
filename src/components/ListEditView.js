@@ -1,6 +1,8 @@
 import React from "react"
+
 import TaskInput from "./TaskInput"
 import Task from "./Task"
+import fetchRequests from "../fetch"
 
 class ListEditView extends React.Component {
   constructor(props) {
@@ -14,30 +16,26 @@ class ListEditView extends React.Component {
     this.changeView = this.changeView.bind(this)
     this.editName = this.editName.bind(this)
   }
+  changeView () { // return to multi list view
+    this.props.return(this.props.id, this.state.name, this.state.tasks)
+  }
+  editName (event) { // keep db and local field containing list name in sync
+    let newName = event.target.value
+    fetchRequests.changeListName(this.props.id, newName)
+    .then(res => this.setState({name: newName}))
+  }
   addTask (name, description) { // add a new task to this list
-    console.log('Submitting post request', this.props.id, name, description) // debug
-    fetch("http://localhost:8080/task/" + this.props.id + '/' + name + '/' + description, {
-      method: 'POST',
-      mode: "cors"
-    }).then(res => res.json())
+    fetchRequests.createTask(this.props.id, name, description)
     .then(res => this.setState({tasks: this.state.tasks.concat([{'id': res.id, 'name': name, 'description': description, 'completed': false}])}))
-  } // implement error handling
+  }
   delTask (id) { // delete an existing task
-    console.log('Submitting delete request')
-    fetch("http://localhost:8080/task/" + this.props.id + '/' + id, {
-      method: 'DELETE',
-      mode: "cors"
-    }).then(res => res.json())
+    fetchRequests.deleteTask(this.props.id, id)
     .then(res => this.setState({tasks: this.state.tasks.filter(x => x.id !== id)}))
-    // check for errors
   }
   completeTask (id, completed) { // send db request to modify task completion status
-    console.log('Submitting put request')
-    fetch("http://localhost:8080/task/" + id + '/completed/' + completed, {
-      method: 'PUT',
-      mode: "cors"
-    }).then(res => this.completeTaskSuccess(id, completed))
-  } // error checking
+    fetchRequests.completeTask(id, completed)
+    .then(res => this.completeTaskSuccess(id, completed))
+  }
   completeTaskSuccess (id, completed) { // modify task completion in state to match db
     let task = this.state.tasks.filter(x => x.id === id)
     task[0].completed = completed
@@ -48,17 +46,6 @@ class ListEditView extends React.Component {
     newTasks.filter(x => x.id === id)[0][field] = value
     this.setState({tasks: newTasks})
   }
-  changeView () { // return to multi list view
-    this.props.return(this.props.id, this.state.name, this.state.tasks)
-  }
-  editName (event) { // keep db and local field containing list name in sync
-    console.log('Submitting put request')
-    let newName = event.target.value
-    fetch("http://localhost:8080/list/" + this.props.id + '/' + newName, {
-      method: 'PUT',
-      mode: "cors"
-    }).then(res => this.setState({name: newName}))
-  } // error checking
   render() {
     return(
       <div className="App">
