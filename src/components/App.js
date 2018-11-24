@@ -22,7 +22,7 @@ class App extends React.Component {
   addList (name) { // add a new to-do list
     fetchRequests.createList(name)
     .then(res => res ? 
-      this.setState({lists: this.state.lists.concat([{ "id": res.id, "name": name, "tasks": [] }])})
+      this.setState({lists: [{ "id": res.id, "name": name, "tasks": [] }].concat(this.state.lists)})
       : console.log('Error in request to database')
     )
   }

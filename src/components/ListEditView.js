@@ -27,7 +27,7 @@ class ListEditView extends React.Component {
   addTask (name, description) { // add a new task to this list
     fetchRequests.createTask(this.props.id, name, description)
     .then(res => res ? 
-      this.setState({tasks: this.state.tasks.concat([{"id": res.id, "name": name, "description": description, "completed": false}])})
+      this.setState({tasks: [{"id": res.id, "name": name, "description": description, "completed": false}].concat(this.state.tasks)})
       : console.log('Error in request to database')
     )
   }
