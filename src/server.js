@@ -1,13 +1,13 @@
 const express = require('express')
 const cors = require('cors')
 
-var server = express()
+var config = require('../config')
 var router = require('./routes')
 
-server.listen(8080, function () {
-  console.log('Server listening on port 8080')
+var server = express()
+server.listen(config.port, function () {
+  console.log(`Server listening on port ${config.port}`)
 })
-
 server.use(cors())
 server.use(express.json())
 server.use(express.urlencoded({ extended: false }))

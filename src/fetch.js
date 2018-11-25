@@ -1,5 +1,7 @@
 import config from '../config'
 
+console.log(config.domain) // debug
+
 function fetchCors (url, reqType) {
   console.log(`Submitting ${reqType} request`)
   return fetch(url, {
