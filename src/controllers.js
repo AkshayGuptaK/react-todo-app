@@ -47,15 +47,15 @@ async function getTasksOfList (listId) {
 // Exported Controllers
 
 exports.getAllData = async function (req, res) {
-  console.log('I got a get request')
+  console.log(`I got a ${req.method} request`)
   let ids = await lrange('lists', 0, -1).catch()
-  let listNames = await Promise.all(ids.map(id => hgetall(id)))
-  let listTasks = await Promise.all(ids.map(id => getTasksOfList(id)))
+  let listNames = await Promise.all(ids.map(id => hgetall(id))).catch()
+  let listTasks = await Promise.all(ids.map(id => getTasksOfList(id))).catch()
   res.send(formatListData(listNames, listTasks, ids))
 } // error handling
 
 exports.addList = function (req, res) {
-  console.log('I got a post request')
+  console.log(`I got a ${req.method} request`)
   client.incr('index', function (err, id) {
     if (err) {
       res.send({ 'error': err })
@@ -79,7 +79,7 @@ exports.addList = function (req, res) {
 }
 
 exports.editList = function (req, res) {
-  console.log('I got an edit request')
+  console.log(`I got a ${req.method} request`)
   client.hset(req.params.listId, 'name', req.params.name, function (err, result) {
     if (err) {
       res.send({ 'error': err })
@@ -91,7 +91,7 @@ exports.editList = function (req, res) {
 }
 
 exports.deleteList = function (req, res) {
-  console.log('I got a delete request')
+  console.log(`I got a ${req.method} request`)
   client.hdel(req.params.listId, 'name', function (err, result) {
     if (err) {
       res.send({ 'error': err })
@@ -104,7 +104,7 @@ exports.deleteList = function (req, res) {
 }
 
 exports.addTask = function (req, res) {
-  console.log('I got a post request')
+  console.log(`I got a ${req.method} request`)
   if (!req.params.desc) {
     req.params.desc = ''
   }
@@ -131,7 +131,7 @@ exports.addTask = function (req, res) {
 }
 
 exports.editTask = function (req, res) {
-  console.log('I got an edit request')
+  console.log(`I got a ${req.method} request`)
   client.hset(req.params.taskId, req.params.field, req.params.value, function (err, result) {
     if (err) {
       res.send({ 'error': err })
@@ -142,7 +142,7 @@ exports.editTask = function (req, res) {
 }
 
 exports.deleteTask = function (req, res) {
-  console.log('I got a delete request')
+  console.log(`I got a ${req.method} request`)
   client.hdel(req.params.taskId, 'name', 'description', 'completed', function (err, result) {
     if (err) {
       res.send({ 'error': err })

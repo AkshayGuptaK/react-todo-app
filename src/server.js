@@ -11,7 +11,7 @@ server.listen(config.port, function () {
 server.use(cors())
 server.use(express.json())
 server.use(express.urlencoded({ extended: false }))
-server.use(express.static(`${__dirname}/../public`))
+server.use(express.static(config.publicDir))
 server.use('/', router)
 
 // error handler
