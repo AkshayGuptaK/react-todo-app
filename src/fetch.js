@@ -8,7 +8,7 @@ function fetchCors (url, reqType) {
     method: reqType,
     mode: 'cors'
   }).then(res => res.json())
-    .then(res => res.error ? false : res)
+    .then(res => res.error ? console.log(res.error) : res)
 }
 
 class fetchRequests {
